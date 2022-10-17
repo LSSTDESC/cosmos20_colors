@@ -1,0 +1,9 @@
+[run]
+source= cosmos20_colors/
+
+omit =
+    cosmos20_colors/__init__.py
+    cosmos20_colors/*/__init__.py
+    cosmos20_colors/_version.py
+    cosmos20_colors/tests/*.py
+    cosmos20_colors/*/tests/*.py
