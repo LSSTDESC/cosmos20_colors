@@ -20,3 +20,4 @@ if you use this package in your research.
     :maxdepth: 1
 
     API reference <reference.rst>
+    citation.rst
