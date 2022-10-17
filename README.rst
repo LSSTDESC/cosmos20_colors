@@ -35,7 +35,7 @@ or .zshrc (for zshell users)::
 Downloading the data
 --------------------
 The official release of the COSMOS-20 dataset is publicly available
-on `the COSMOS-20 collaboration website <https://cosmos2020.calet.org/>`_.
+at `the COSMOS-20 collaboration website <https://cosmos2020.calet.org/>`_.
 The version of the catalog that is intended to be used with this package
 can be downloaded `here <https://portal.nersc.gov/project/hacc/aphearin/cosmos20_colors/>`_.
 
