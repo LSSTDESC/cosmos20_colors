@@ -9,6 +9,11 @@ as part of the COSMOS-20 collaboration. Please see the citation information belo
 if you use this package in your research.
 
 
+Documentation
+-------------
+See `cosmos20-colors.rtfd.io <https://cosmos20-colors.readthedocs.io/>`_ for
+full documentation of the package.
+
 Installation
 ------------
 To install cosmos20_colors into your environment from the source code::
