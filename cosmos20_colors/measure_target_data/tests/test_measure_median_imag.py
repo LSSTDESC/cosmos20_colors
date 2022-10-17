@@ -1,5 +1,6 @@
 """
 """
+import pytest
 import numpy as np
 import os
 from glob import glob
@@ -10,11 +11,14 @@ from ...data_loader import load_cosmos20
 _THIS_DRNAME = os.path.dirname(os.path.abspath(__file__))
 TESTING_DRNAME = os.path.join(_THIS_DRNAME, "testing_data")
 
+ENV_VAR_MSG = "load_cosmos20 can only be tested if COSMOS20_DRN is in the env"
+
 
 def _infer_phz_from_bn(bn):
     return float(bn[bn.find("phz_") + 4 : bn.find("_imag_cut")])
 
 
+@pytest.mark.skipif(os.environ.get("COSMOS20_DRN", None) is None, reason=ENV_VAR_MSG)
 def test_measure_median_imag_results_agree_with_hard_coded_tabulation():
     """Recompute <Mi | Mstar, z> and enforce agreement with previous calculation.
 
