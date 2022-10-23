@@ -43,11 +43,18 @@ def load_cosmos20(drn=None, bn=COSMOS20_BASENAME, apply_cuts=True):
     cat = Table.read(fn, format="fits", hdu=1)
 
     if apply_cuts:
+        cat_out = Table()
         cuts = []
         sel_galaxies = np.array(cat["lp_type"] == 0).astype(bool)
         cuts.append(sel_galaxies)
 
         msk = np.prod(cuts, axis=0).astype(bool)
-        cat = cat[msk]
+        for key in cat.keys():
+            cat_out[key] = np.array(cat[key][msk])
+
+        return cat_out
+
+    else:
+        return cat
 
     return cat
