@@ -6,10 +6,15 @@ from astropy.table import Table
 COSMOS20_BASENAME = "COSMOS2020_Farmer_processed_hlin.fits"
 
 
+NANFILL = -999.0
+
+
 __all__ = ("load_cosmos20",)
 
 
-def load_cosmos20(drn=None, bn=COSMOS20_BASENAME, apply_cuts=True):
+def load_cosmos20(
+    drn=None, bn=COSMOS20_BASENAME, apply_cuts=True, mag_lo=-100, mag_hi=5
+):
     """Load the COSMOS-20 dataset from disk and calculate quality cuts
 
     Parameters
@@ -31,10 +36,22 @@ def load_cosmos20(drn=None, bn=COSMOS20_BASENAME, apply_cuts=True):
         If True, returned Table will have quality cuts imposed on the data
         Default is True
 
+    mag_lo : int, optional
+        Smallest absolute magnitude in any band before galaxy is considered unphysical
+
+    mag_hi : int, optional
+        Largest absolute magnitude in any band before galaxy is considered unphysical
+
     Returns
     -------
     cat : astropy.table.Table
         Table of length ngals
+
+    Notes
+    -----
+    Quality cuts include lp_type=0 for the `galaxies` flag.
+    And for every Mag in the Le Phare absolute magnitudes,
+    we require mag_lo < Mag < mag_hi
 
     """
     if drn is None:
@@ -47,6 +64,16 @@ def load_cosmos20(drn=None, bn=COSMOS20_BASENAME, apply_cuts=True):
         cuts = []
         sel_galaxies = np.array(cat["lp_type"] == 0).astype(bool)
         cuts.append(sel_galaxies)
+
+        lp_keys = [key for key in cat.keys() if "lp_M" in key]
+        for key in lp_keys:
+            x = np.nan_to_num(
+                cat[key], copy=True, nan=NANFILL, posinf=NANFILL, neginf=NANFILL
+            )
+            key_finite_msk = np.isfinite(x == NANFILL)
+            cuts.append(key_finite_msk)
+            cuts.append(x > mag_lo)
+            cuts.append(x < mag_hi)
 
         msk = np.prod(cuts, axis=0).astype(bool)
         for key in cat.keys():
