@@ -40,6 +40,26 @@ For any choice of :math:`23 < m_i < 26`, :math:`90-95\%` of galaxies in the COSM
 dataset are more massive than the dashed black curve in the above plot.
 
 
+Models for Cumulative Sky Density
+---------------------------------
+
+A simple measurement that places tight constraints on galaxy abundance is the
+sky density of galaxies brighter than some apparent magnitude. This is a
+particularly robust measurement because it is insensitive to SED-fitting systematics
+and photo-z errors.
+
+i-band apparent magnitude
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The :meth:`approximate_cuml_hsc_imag_sky_density <~cosmos20_colors.target_data_models.cuml_imag_sky_density.approximate_cuml_hsc_imag_sky_density>` function
+provides an approximate model for surface density of COSMOS-20 galaxies brighter
+than apparent magnitude in the HSC i-band.
+
+.. image:: images/cuml_sky_density_app_imag_hsc.png
+    :width: 100%
+    :align: center
+
+
 Models for Absolute Magnitude
 -----------------------------
 

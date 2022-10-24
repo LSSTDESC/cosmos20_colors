@@ -4,7 +4,7 @@ from collections import OrderedDict
 from ..utils import _tw_sig_slope
 import numpy as np
 
-PARAMS = OrderedDict(xtp=23, ytp=4.5, x0=23, tw_h=5, lo=0.55, hi=0.22)
+PARAMS = OrderedDict(xtp=23, ytp=4.49, x0=23, tw_h=5, lo=0.53, hi=0.225)
 
 
 def approximate_cuml_hsc_imag_sky_density(
