@@ -1,7 +1,7 @@
 """
 """
 from collections import OrderedDict
-from .utils import _tw_sig_slope
+from ..utils import _tw_sig_slope
 import numpy as np
 
 PARAMS = OrderedDict(xtp=23, ytp=4.5, x0=23, tw_h=5, lo=0.55, hi=0.22)
@@ -28,4 +28,4 @@ def approximate_cuml_hsc_imag_sky_density(
     the input apparent i-band magnitude
 
     """
-    return np.array(_tw_sig_slope(imag, xtp, ytp, x0, tw_h, lo, hi))
+    return 10 ** np.array(_tw_sig_slope(imag, xtp, ytp, x0, tw_h, lo, hi))
