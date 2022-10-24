@@ -18,4 +18,4 @@ def test_median_hsc_imag_model_agrees_with_data():
     testing_data = np.loadtxt(fname)
     imag_bins, cuml_imag_density = testing_data[:, 0], testing_data[:, 1]
     approx_cuml_imag_density = approximate_cuml_hsc_imag_sky_density(imag_bins)
-    assert np.allclose(cuml_imag_density, approx_cuml_imag_density, rtol=0.1)
+    assert np.allclose(cuml_imag_density, approx_cuml_imag_density, rtol=0.05)
