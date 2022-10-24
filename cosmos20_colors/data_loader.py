@@ -5,6 +5,7 @@ from astropy.table import Table
 
 COSMOS20_BASENAME = "COSMOS2020_Farmer_processed_hlin.fits"
 
+SKY_AREA = 1.21  # square degrees
 
 NANFILL = -999.0
 
