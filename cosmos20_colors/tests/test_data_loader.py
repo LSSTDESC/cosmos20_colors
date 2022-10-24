@@ -3,7 +3,7 @@
 import pytest
 import os
 import subprocess
-from ..data_loader import load_cosmos20, COSMOS20_BASENAME
+from ..data_loader import load_cosmos20, COSMOS20_BASENAME, SKY_AREA
 
 
 _THIS_DRNAME = os.path.dirname(os.path.abspath(__file__))
@@ -53,3 +53,20 @@ def test_cosmos20_dataset_loads():
     """Enforce that dataset loads when it exists"""
     cat = load_cosmos20()
     assert cat is not None
+
+
+@pytest.mark.skipif(not HAS_COSMOS20, reason=HAS_COSMOS20_MSG)
+def test_cosmos20_quality_cuts_do_not_change():
+    """Enforce that the data-loader quality cuts are frozen.
+    The purpose of this unit test is to standardize the quality cuts made on the
+    catalog that define the summary statistics. If the quality cuts change,
+    this unit test will need to be updated.
+    """
+    cat = load_cosmos20(apply_cuts=True)
+    assert len(cat) == 706601
+
+
+@pytest.mark.skipif(not HAS_COSMOS20, reason=HAS_COSMOS20_MSG)
+def test_cosmos20_sky_area_is_frozen():
+    """Enforce that the sky area of COSMOS-20 is frozen."""
+    assert SKY_AREA == 1.21
