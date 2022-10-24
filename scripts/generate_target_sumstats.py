@@ -5,7 +5,8 @@ import argparse
 import subprocess
 import numpy as np
 from cosmos20_colors.data_loader import load_cosmos20, COSMOS20_BASENAME
-from cosmos20_colors import measure_median_imag
+from cosmos20_colors.measure_target_data import measure_median_imag
+from cosmos20_colors.measure_target_data import measure_cuml_imag_sky_density
 from cosmos20_colors import get_logsm_completeness
 
 if __name__ == "__main__":
@@ -28,10 +29,9 @@ if __name__ == "__main__":
     with open(shasum_fnout, "w") as fout:
         fout.write(actual_shasum)
 
-    cat = load_cosmos20()
-    sel_galaxies = cat["lp_type"] == 0
+    cat = load_cosmos20(apply_cuts=True)
     sel_hsc_i_mag = cat["HSC_i_MAG"] < imag_cut
-    cosmos = cat[sel_galaxies & sel_hsc_i_mag]
+    cosmos = cat[sel_hsc_i_mag]
 
     # Tabulate <Mi | Mstar, z>
     cut_phz_seq = [0.35, 0.75, 1.35, 1.95]
@@ -45,6 +45,7 @@ if __name__ == "__main__":
         outname = os.path.join(testing_data_drn, outpat.format(phz, imag_cut))
         np.savetxt(outname, outdata, fmt="%.4e")
 
+    # Tabulate stellar mass completeness limits
     testing_data_drn = os.path.join(
         src_drn, "target_data_models", "tests", "testing_data"
     )
@@ -57,3 +58,14 @@ if __name__ == "__main__":
         logsm_complete_out = get_logsm_completeness(zarr_out, imag)
         outdata = np.vstack((zarr_out, logsm_complete_out)).T
         np.savetxt(outname, outdata, fmt="%.4e")
+
+    # Tabulate cumulative sky density in HSC i-band
+    testing_data_drn = os.path.join(
+        src_drn, "measure_target_data", "tests", "testing_data"
+    )
+    imag_bins = np.linspace(20, 26, 100)
+    cuml_imag_density = measure_cuml_imag_sky_density(cat, imag_bins)
+    outdata = np.vstack((imag_bins, cuml_imag_density)).T
+    outbase = "cuml_sky_density_hsc_appmag_i.dat"
+    outname = os.path.join(testing_data_drn, outbase)
+    np.savetxt(outname, outdata, fmt="%.4e")
