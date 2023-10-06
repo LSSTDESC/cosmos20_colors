@@ -1,8 +1,8 @@
 """
 """
 from jax import jit as jjit
+from jax import lax
 from jax import numpy as jnp
-
 
 C0 = 1 / 2
 C1 = 35 / 96
@@ -21,7 +21,7 @@ def _tw_sigmoid(x, x0, tw_h, ymin, ymax):
 @jjit
 def _sigmoid(x, x0, k, ylo, yhi):
     height_diff = yhi - ylo
-    return ylo + height_diff / (1 + jnp.exp(-k * (x - x0)))
+    return ylo + height_diff * lax.logistic(k * (x - x0))
 
 
 @jjit
