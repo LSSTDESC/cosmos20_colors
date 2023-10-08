@@ -1,7 +1,9 @@
 """Module implements the `load_cosmos20` function"""
 import os
+
 import numpy as np
 from astropy.table import Table
+from jax import numpy as jnp
 
 COSMOS20_BASENAME = "COSMOS2020_Farmer_processed_hlin.fits"
 
@@ -78,7 +80,7 @@ def load_cosmos20(
 
         msk = np.prod(cuts, axis=0).astype(bool)
         for key in cat.keys():
-            cat_out[key] = np.array(cat[key][msk])
+            cat_out[key] = jnp.array(cat[key][msk])
 
         return cat_out
 
